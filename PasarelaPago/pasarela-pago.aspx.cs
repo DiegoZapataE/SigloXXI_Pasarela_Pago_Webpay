@@ -7,7 +7,7 @@ using Transbank.Webpay;
 
 namespace PasarelaPago
 {
-    public partial class tbk_normal : Page
+    public partial class pasarela_pago : Page
     {
         //Mensaje
         private string message;
@@ -28,14 +28,18 @@ namespace PasarelaPago
         {
             var configuration = Configuration.ForTestingWebpayPlusNormal();
             var transaction = new Webpay(configuration);
-
+            string data1 = "";
+            string data2 = "";
             //Información del host
             var httpHost = HttpContext.Current.Request.ServerVariables["HTTP_HOST"].ToString();
             var selfURL = HttpContext.Current.Request.ServerVariables["URL"].ToString();
             string action = !String.IsNullOrEmpty(HttpContext.Current.Request.QueryString["action"]) ? HttpContext.Current.Request.QueryString["action"] : "init";
 
+            //Url de inicio pasa pasar boleta y rut
+            string sample_baseurl = "http://" + httpHost + selfURL + "?boleta=" + data1 + "& rut=" + data2;
+
             //Url de la aplicación
-            string sample_baseurl = "http://" + httpHost + selfURL;
+            string result_url = "http://" + httpHost + selfURL;
 
             //Diccionario con descripción
             var description = new Dictionary<string, string>
@@ -72,13 +76,15 @@ namespace PasarelaPago
                     {
                         var random = new Random();
                         BoletaDAO bdao = new BoletaDAO();
-                        int nro_boleta = bdao.TraerUltimaBoleta().Id_Boleta;
 
-                        decimal amount = Convert.ToDecimal(bdao.TraerBoleta(nro_boleta).Valor_Boleta);
-                        buyOrder = bdao.TraerBoleta(nro_boleta).Id_Boleta.ToString();
+                        int boleta = int.Parse(Request.QueryString["boleta"]);
+                        string rut = Request.QueryString["rut"];
+
+                        decimal amount = Convert.ToDecimal(bdao.TraerBoleta(boleta).Valor_Boleta);
+                        buyOrder = boleta.ToString();
                         string sessionId = random.Next(0, 1000).ToString();
-                        string urlReturn = sample_baseurl + "?action=result";
-                        string urlFinal = sample_baseurl + "?action=end";
+                        string urlReturn = result_url + "?action=result";
+                        string urlFinal = result_url + "?action=end";
 
                         request.Add("amount", amount.ToString());
                         request.Add("buyOrder", buyOrder.ToString());
@@ -102,10 +108,11 @@ namespace PasarelaPago
                         HttpContext.Current.Response.Write("<div class='login-box'>");
                         HttpContext.Current.Response.Write("<div class='login-logo'>");
                         HttpContext.Current.Response.Write("<div class='login-box-body'>");
-                        HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Número de orden: </strong>" + buyOrder.ToString() + "</p>");
+                        HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Número de orden: </strong>" + boleta.ToString() + "</p>");
                         HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Monto: </strong>" + amount.ToString() + "</p>");
+                        //HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Rut: </strong>" + rut.ToString() + "</p>");
                         HttpContext.Current.Response.Write("" + message + "</br></br>");
-                        HttpContext.Current.Response.Write("<form action=" + result.url + " method='post'><input type='hidden' name='token_ws' value=" + result.token + "><input type='submit' value='Pagar'></form> <a href='http://localhost:8080/SigloXXI_Web/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
+                        HttpContext.Current.Response.Write("<form action=" + result.url + " method='post'><input type='hidden' name='token_ws' value=" + result.token + "><input type='submit' value='Pagar'></form> <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                         HttpContext.Current.Response.Write("</div>");
                         HttpContext.Current.Response.Write("</div>");
                         HttpContext.Current.Response.Write("</div>");
@@ -114,16 +121,8 @@ namespace PasarelaPago
                     }
                     catch (Exception ex)
                     {
-                        HttpContext.Current.Response.Write("<div class='principal'>");
-                        HttpContext.Current.Response.Write("<div class='login-box'>");
-                        HttpContext.Current.Response.Write("<div class='login-logo'>");
-                        HttpContext.Current.Response.Write("<div class='login-box-body'>");
                         HttpContext.Current.Response.Write("<p hidden style='font-size: 100%; background-color:lightyellow;'><strong>request</strong></br></br>" + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request) + "</p>");
-                        HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Error:</strong></br></br><strong>No se encontró una boleta pendiente de pago. Por favor comunicarlo a recepción.</strong>"+ ex.Message + "</p>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
+                        HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Error:</strong></br><strong>No se encontró una boleta pendiente de pago. Por favor comunicarlo a recepción. </strong>"+ ex.Message + "</p>  <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                     }
                     break;
 
@@ -162,6 +161,7 @@ namespace PasarelaPago
                             int nro_boleta = bodao.TraerUltimaBoleta().Id_Boleta;
                             int rut = bodao.TraerBoleta(nro_boleta).Clientes_Rut_Cliente;
                             bodao.ActualizarEstadoBoleta(nro_boleta, 2);
+                            bodao.ActualizarTipoPago(nro_boleta);
                             int id_mesa = mDAO.TraerMesa(rut).Id_Mesa;
                             mDAO.ActualizarMesa(id_mesa);
 
@@ -213,7 +213,7 @@ namespace PasarelaPago
                             HttpContext.Current.Response.Write("<div class='login-logo'>");
                             HttpContext.Current.Response.Write("<div class='login-box-body'>");
                             HttpContext.Current.Response.Write(message + "</br></br>");
-                            HttpContext.Current.Response.Write("<form action=" + result.urlRedirection + " method='post'><input type='hidden' name='token_ws' value=" + token + "><input type='submit' value='Continuar'></form>  <a href='http://localhost:8080/SigloXXI_Web/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
+                            HttpContext.Current.Response.Write("<form action=" + result.urlRedirection + " method='post'><input type='hidden' name='token_ws' value=" + token + "><input type='submit' value='Continuar'></form>  <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                             HttpContext.Current.Response.Write("</div>");
                             HttpContext.Current.Response.Write("</div>");
                             HttpContext.Current.Response.Write("</div>");
@@ -222,16 +222,8 @@ namespace PasarelaPago
                     }
                     catch (Exception ex)
                     {
-                        HttpContext.Current.Response.Write("<div class='principal'>");
-                        HttpContext.Current.Response.Write("<div class='login-box'>");
-                        HttpContext.Current.Response.Write("<div class='login-logo'>");
-                        HttpContext.Current.Response.Write("<div class='login-box-body'>");
                         HttpContext.Current.Response.Write("<p hidden style='font-size: 100%; background-color:lightyellow;'><strong>request</strong></br></br>" + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request) + "</p>");
-                        HttpContext.Current.Response.Write("<p style='font-size: 100%; background-color:lightgrey;'><strong>Resultado:</strong></br></br> Ocurrió un error en la transacción (Validar correcta configuración de parámetros). " + ex.Message + "</p>  <a href='http://localhost:8080/SigloXXI_Web/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
+                        HttpContext.Current.Response.Write("<p style='font-size: 100%; background-color:lightgrey;'><strong>Resultado:</strong></br> Ocurrió un error en la transacción (Validar correcta configuración de parámetros). " + ex.Message + "</p>  <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                     }
                     break;
 
@@ -265,7 +257,7 @@ namespace PasarelaPago
                         HttpContext.Current.Response.Write("<div class='login-box'>");
                         HttpContext.Current.Response.Write("<div class='login-logo'>");
                         HttpContext.Current.Response.Write("<div class='login-box-body'>");
-                        HttpContext.Current.Response.Write(message + "</br></br> <a href='http://localhost:8080/SigloXXI_Web/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
+                        HttpContext.Current.Response.Write(message + "</br></br> <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                         HttpContext.Current.Response.Write("</div>");
                         HttpContext.Current.Response.Write("</div>");
                         HttpContext.Current.Response.Write("</div>");
@@ -273,16 +265,8 @@ namespace PasarelaPago
                     }
                     catch (Exception ex)
                     {
-                        HttpContext.Current.Response.Write("<div class='principal'>");
-                        HttpContext.Current.Response.Write("<div class='login-box'>");
-                        HttpContext.Current.Response.Write("<div class='login-logo'>");
-                        HttpContext.Current.Response.Write("<div class='login-box-body'>");
                         HttpContext.Current.Response.Write("<p hidden style='font-size: 100%; background-color:lightyellow;'><strong>request</strong></br></br>" + new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(request) + "</p>");
-                        HttpContext.Current.Response.Write("<p style='font-size: 100%; background-color:lightgrey;'><strong>Resultado:</strong></br></br> Ocurrió un error en la transacción (Validar correcta configuración de parámetros). " + ex.Message + "</p>  <a href='http://localhost:8080/SigloXXI_Web/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
-                        HttpContext.Current.Response.Write("</div>");
+                        HttpContext.Current.Response.Write("<p style='font-size: 100%; background-color:lightgrey;'><strong>Resultado:</strong></br> Ocurrió un error en la transacción (Validar correcta configuración de parámetros). " + ex.Message + "</p>  <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                     }
                     break;
             }

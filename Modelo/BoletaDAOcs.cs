@@ -62,10 +62,41 @@ namespace Modelo
                     OracleCommand cmd = new OracleCommand();
                     con.Open();
                     cmd.Connection = con;
-                    cmd.CommandText = "PKG_BOLETAS.ACTUALIZAR_ESTADO_BOLETA";
+                    cmd.CommandText = "PKG_BOLETAS_WEB.ACTUALIZAR_ESTADO_BOLETA";
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("v_id_boleta", OracleDbType.Int32).Value = id;
                     cmd.Parameters.Add("v_estado_boleta_id_estado_boleta", OracleDbType.Int32).Value = estado;
+
+                    verificar = cmd.ExecuteNonQuery();
+
+                    if (verificar != 0)
+                    {
+                        resultado = true;
+                    }
+                    con.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.Write(e);
+            }
+            return resultado;
+        }
+        public bool ActualizarTipoPago(int id)
+        {
+            bool resultado = false;
+            int verificar = 0;
+            try
+            {
+                using (OracleConnection con = new OracleConnection(c.qcon))
+                {
+                    OracleCommand cmd = new OracleCommand();
+                    con.Open();
+                    cmd.Connection = con;
+                    cmd.CommandText = "PKG_BOLETAS_WEB.ACTUALIZAR_TIPO_PAGO";
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("v_id_boleta", OracleDbType.Int32).Value = id;
+                    cmd.Parameters.Add("v_tipo_pago_id_tipo_pago", OracleDbType.Int32).Value = 2;
 
                     verificar = cmd.ExecuteNonQuery();
 

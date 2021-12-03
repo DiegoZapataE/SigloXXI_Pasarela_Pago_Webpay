@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="tbk-normal.aspx.cs" Inherits="PasarelaPago.tbk_normal" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="pasarela-pago.aspx.cs" Inherits="PasarelaPago.pasarela_pago" %>
 
 <!DOCTYPE html>
 

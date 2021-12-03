@@ -128,16 +128,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config" />
-    <Content Include="tbk-normal.aspx" />
+    <Content Include="pasarela-pago.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="tbk-normal.aspx.cs">
-      <DependentUpon>tbk-normal.aspx</DependentUpon>
+    <Compile Include="pasarela-pago.aspx.cs">
+      <DependentUpon>pasarela-pago.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="tbk-normal.aspx.designer.cs">
-      <DependentUpon>tbk-normal.aspx</DependentUpon>
+    <Compile Include="pasarela-pago.aspx.designer.cs">
+      <DependentUpon>pasarela-pago.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

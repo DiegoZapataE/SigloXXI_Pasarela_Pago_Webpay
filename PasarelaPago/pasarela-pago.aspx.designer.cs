@@ -11,7 +11,7 @@ namespace PasarelaPago
 {
 
 
-    public partial class tbk_normal
+    public partial class pasarela_pago
     {
     }
 }
