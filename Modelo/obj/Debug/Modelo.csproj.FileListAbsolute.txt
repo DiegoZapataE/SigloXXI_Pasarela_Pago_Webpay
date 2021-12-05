@@ -58,3 +58,33 @@ C:\Users\Felipe Fuentes\Downloads\PasarelaPago\Modelo\obj\Debug\Modelo.csproj.Co
 C:\Users\Felipe Fuentes\Downloads\PasarelaPago\Modelo\obj\Debug\Modelo.csproj.CopyComplete
 C:\Users\Felipe Fuentes\Downloads\PasarelaPago\Modelo\obj\Debug\Modelo.dll
 C:\Users\Felipe Fuentes\Downloads\PasarelaPago\Modelo\obj\Debug\Modelo.pdb
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Modelo.dll.config
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Modelo.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Modelo.pdb
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Controlador.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Oracle.ManagedDataAccess.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Buffers.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Memory.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Text.Encodings.Web.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Text.Json.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.ValueTuple.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Controlador.pdb
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Controlador.dll.config
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\Microsoft.Bcl.AsyncInterfaces.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Buffers.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Memory.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Text.Encodings.Web.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Text.Json.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.Threading.Tasks.Extensions.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\bin\Debug\System.ValueTuple.xml
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\obj\Debug\Modelo.csproj.AssemblyReference.cache
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\obj\Debug\Modelo.csproj.CoreCompileInputs.cache
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\obj\Debug\Modelo.csproj.CopyComplete
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\obj\Debug\Modelo.dll
+C:\Users\Felipe Fuentes\Desktop\PORTAFOLIO FINAL\PasarelaPago\Modelo\obj\Debug\Modelo.pdb

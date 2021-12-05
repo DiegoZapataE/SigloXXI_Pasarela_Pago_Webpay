@@ -36,7 +36,7 @@ namespace PasarelaPago
             string action = !String.IsNullOrEmpty(HttpContext.Current.Request.QueryString["action"]) ? HttpContext.Current.Request.QueryString["action"] : "init";
 
             //Url de inicio pasa pasar boleta y rut
-            string sample_baseurl = "http://" + httpHost + selfURL + "?boleta=" + data1 + "& rut=" + data2;
+            string sample_baseurl = "http://" + httpHost + selfURL + "?boleta=" + data1 + "&rut=" + data2;
 
             //Url de la aplicación
             string result_url = "http://" + httpHost + selfURL;
@@ -67,23 +67,24 @@ namespace PasarelaPago
             };
             
             string buyOrder;
+            int boleta;
+            string rut;
 
             switch (action)
             {
                 default:
-
                     try
                     {
                         var random = new Random();
                         BoletaDAO bdao = new BoletaDAO();
 
-                        int boleta = int.Parse(Request.QueryString["boleta"]);
-                        string rut = Request.QueryString["rut"];
+                        boleta = int.Parse(Request.QueryString["boleta"]);
+                        rut = Request.QueryString["rut"];
 
                         decimal amount = Convert.ToDecimal(bdao.TraerBoleta(boleta).Valor_Boleta);
                         buyOrder = boleta.ToString();
                         string sessionId = random.Next(0, 1000).ToString();
-                        string urlReturn = result_url + "?action=result";
+                        string urlReturn = result_url + "?boleta="+ boleta + "&rut="+ rut + "&action=result";
                         string urlFinal = result_url + "?action=end";
 
                         request.Add("amount", amount.ToString());
@@ -110,7 +111,6 @@ namespace PasarelaPago
                         HttpContext.Current.Response.Write("<div class='login-box-body'>");
                         HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Número de orden: </strong>" + boleta.ToString() + "</p>");
                         HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Monto: </strong>" + amount.ToString() + "</p>");
-                        //HttpContext.Current.Response.Write("<p style='font-size: 100%;'><strong>Rut: </strong>" + rut.ToString() + "</p>");
                         HttpContext.Current.Response.Write("" + message + "</br></br>");
                         HttpContext.Current.Response.Write("<form action=" + result.url + " method='post'><input type='hidden' name='token_ws' value=" + result.token + "><input type='submit' value='Pagar'></form> <a href='http://localhost:8080/SigloXXI_Web_Carro/menu_comprar.jsp'><strong>Volver al inicio</strong></a>");
                         HttpContext.Current.Response.Write("</div>");
@@ -131,7 +131,8 @@ namespace PasarelaPago
                     {
                         //Obtiene la llave a través del método POST
                         string[] keysPost = Request.Form.AllKeys;
-
+                        boleta = int.Parse(Request.QueryString["boleta"]);
+                        rut = Request.QueryString["rut"];
                         //Token
                         string token = Request.Form["token_ws"];
                         request.Add("token", token.ToString());
@@ -158,11 +159,11 @@ namespace PasarelaPago
                             EmailDAO emailDAO = new EmailDAO();
                             
                             //Actualizamos los datos de la boleta y la mesa
-                            int nro_boleta = bodao.TraerUltimaBoleta().Id_Boleta;
-                            int rut = bodao.TraerBoleta(nro_boleta).Clientes_Rut_Cliente;
+                            int nro_boleta = boleta;
+                            int rut_boleta = bodao.TraerBoleta(nro_boleta).Clientes_Rut_Cliente;
                             bodao.ActualizarEstadoBoleta(nro_boleta, 2);
                             bodao.ActualizarTipoPago(nro_boleta);
-                            int id_mesa = mDAO.TraerMesa(rut).Id_Mesa;
+                            int id_mesa = mDAO.TraerMesa(rut_boleta).Id_Mesa;
                             mDAO.ActualizarMesa(id_mesa);
 
                             //Se empieza a generar la data para el correo
@@ -189,7 +190,7 @@ namespace PasarelaPago
                             e.Estado_Boleta = eDAO.TraerEstadoBoleta(e.Id_Estado_Boleta).Estado_Boleta;
 
                             //Cliente
-                            cl.Email_Cliente = cDAO.TraerCliente(rut).Email_Cliente;
+                            cl.Email_Cliente = cDAO.TraerCliente(rut_boleta).Email_Cliente;
 
                             //Enviamos el correo
                             emailDAO.EmailPagoVerificado(cl, b, e, t);
